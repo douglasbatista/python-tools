@@ -83,15 +83,48 @@ from utils.validation import validate_email
 # - utils/validation.py
 ```
 
-**Java example:**
-```java
-// If issue is in UserService.java which imports:
-import com.company.models.User;
-import com.company.utils.ValidationUtils;
+**C# example:**
+```csharp
+// If issue is in UserService.cs which imports:
+using Company.Models;
+using Company.Utils;
 
 // Tool will include:
-// - com/company/models/User.java
-// - com/company/utils/ValidationUtils.java
+// - Company/Models/User.cs
+// - Company/Utils/ValidationUtils.cs
+```
+
+**JavaScript/TypeScript example:**
+```javascript
+// If issue is in userService.js which imports:
+import { User } from './models/user';
+import { validateEmail } from '../utils/validation';
+
+// Tool will include:
+// - models/user.js
+// - ../utils/validation.js
+```
+
+**Visual Basic example:**
+```vb
+' If issue is in UserService.vb which imports:
+Imports Company.Models
+Imports Company.Utils
+
+' Tool will include:
+' - Company/Models/User.vb
+' - Company/Utils/ValidationUtils.vb
+```
+
+**HTML example:**
+```html
+<!-- If issue is in index.html which references: -->
+<script src="js/app.js"></script>
+<link rel="stylesheet" href="css/styles.css">
+
+<!-- Tool will include: -->
+<!-- - js/app.js -->
+<!-- - css/styles.css -->
 ```
 
 ### 2. Files in Same Directory
@@ -107,27 +140,40 @@ src/services/
 ### 3. Test Files
 Corresponding test files (if they exist):
 
+**Python:**
 ```
 src/user_service.py         ← Issue
 tests/test_user_service.py  ← Included
 ```
 
-Or:
+**C#:**
 ```
-src/main/java/UserService.java      ← Issue
-src/test/java/UserServiceTest.java  ← Included
+src/UserService.cs          ← Issue
+test/UserServiceTests.cs    ← Included
+```
+
+**JavaScript/TypeScript:**
+```
+src/userService.js          ← Issue
+src/userService.test.js     ← Included
+```
+
+**Visual Basic:**
+```
+src/UserService.vb          ← Issue
+test/UserServiceTests.vb    ← Included
 ```
 
 ## Supported Languages
 
-The tool understands imports for:
+The tool understands imports and dependencies for:
 
+- ✅ **C#** - `using` statements, namespace resolution
 - ✅ **Python** - `import`, `from ... import`
-- ✅ **Java** - `import` statements
-- ✅ **JavaScript/TypeScript** - `import`, `require`
-- ✅ **Kotlin** - `import`
-- ✅ **Scala** - `import`
-- ✅ **Go** - `import` (basic support)
+- ✅ **JavaScript** - `import`, `require`, dynamic imports
+- ✅ **TypeScript** - `import`, module resolution
+- ✅ **Visual Basic** - `Imports` statements
+- ✅ **HTML** - `<script>`, `<link>`, `<a>`, `<iframe>` references
 
 ## Example Usage
 
@@ -135,19 +181,19 @@ The tool understands imports for:
 
 **Without repository context:**
 ```
-Issue: Potential null pointer dereference on user.getName()
+Issue: Potential null pointer dereference on user.Name
 LLM suggests: Add null check
 ```
 
 **With repository context:**
 ```
-Issue: Potential null pointer dereference on user.getName()
+Issue: Potential null pointer dereference on user.Name
 
 Related files shown to LLM:
-- models/User.java (sees Optional<String> getName())
-- utils/ValidationUtils.java (sees existing validation methods)
+- Models/User.cs (sees nullable reference types)
+- Utils/ValidationUtils.cs (sees existing validation methods)
 
-LLM suggests: Use ValidationUtils.requireNonNull(user).getName()
+LLM suggests: Use ValidationUtils.RequireNonNull(user).Name
 (Reuses existing project utility!)
 ```
 
@@ -164,10 +210,10 @@ LLM suggests: Generic refactoring
 Issue: Complex method should be split
 
 Related files shown to LLM:
-- services/BaseService.java (sees common patterns)
-- utils/DataProcessor.java (sees existing utilities)
+- Services/BaseService.cs (sees common patterns)
+- Utils/DataProcessor.cs (sees existing utilities)
 
-LLM suggests: Extract to DataProcessor.processAndValidate()
+LLM suggests: Extract to DataProcessor.ProcessAndValidate()
 (Uses existing project architecture!)
 ```
 
